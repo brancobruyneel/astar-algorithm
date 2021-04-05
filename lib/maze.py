@@ -1,14 +1,17 @@
 import pygame
 
-from cell import Cell
-from wall import Wall
+from .cell import Cell
+from .wall import Wall
 
 
 class Maze:
     def __init__(self, size):
-        self.width = size[0] // Cell.width,
+        self.width = size[0] // Cell.width
         self.height = size[1] // Cell.height
-        self.grid = []
+        self.grid = [
+            [Wall(x, y) for y in range(self.height)]
+            for x in range(self.width)
+        ]
 
     def get(self, x, y):
         return self.grid[x][y]

@@ -11,7 +11,7 @@ class Cell(pygame.sprite.Sprite):
         self.surf = pygame.Surface([self.width, self.height])
         self.surf.fill((255, 255, 255))
 
-        self.rect = self.image.get_rect()
+        self.rect = self.surf.get_rect()
         self.rect.x = x * self.width
         self.rect.y = y * self.width
 
