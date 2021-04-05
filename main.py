@@ -6,7 +6,7 @@ from lib.cell import Cell
 
 pygame.init()
 
-WINSIZE = (Cell.w * 101, Cell.h * 51)
+WINSIZE = (Cell.width * 51, Cell.height * 51)
 
 screen = pygame.display.set_mode(WINSIZE)
 
