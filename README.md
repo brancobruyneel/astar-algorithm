@@ -5,10 +5,14 @@
 
 ### Usage
 Install `pygame` if you haven't already.
-`pip install pygame`
+```
+pip install pygame
+````
 
 Run it.
-`python main.py`
+```
+python main.py
+```
 
 #### Controls
 - `r` to reset the maze and sleeping time
