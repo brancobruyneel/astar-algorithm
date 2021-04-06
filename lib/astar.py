@@ -57,7 +57,7 @@ class Astar:
                 return self._return_path(current)
 
             # Step 2
-            neighbors = current.get_neighbors()
+            neighbors = current.get_neighbors(diagonal=self.maze.diagonal)
 
             # Step 3
             for neighbor in neighbors:

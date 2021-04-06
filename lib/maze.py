@@ -81,9 +81,10 @@ class Maze:
     def get_random_neighbor(self, current, unvisited):
         return choice(
             [
-                cell for cell in
-                map(lambda x: self.get(*x), current.get_neighbors(2))
-                if cell in unvisited
+                cell for cell in map(
+                    lambda x: self.get(*x),
+                    current.get_neighbors(2, self.diagonal)
+                ) if cell in unvisited
             ]
         )
 
