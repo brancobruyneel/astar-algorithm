@@ -51,9 +51,11 @@ class Maze:
                 x = current.x - (current.x - next.x) // 2
                 y = current.y - (current.y - next.y) // 2
 
-                self.grid[x][y] = Cell(x, y, (self.width, self.height))
-                self.grid[current.x][current.y] = Cell(
-                    current.x, current.y, (self.width, self.height)
+                size = (self.width, self.height)
+                self.set(x, y, Cell(x, y, size))
+                self.set(
+                    current.x, current.y,
+                    Cell(current.x, current.y, size)
                 )
 
                 current = next
