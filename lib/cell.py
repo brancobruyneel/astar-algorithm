@@ -5,7 +5,7 @@ class Cell(pygame.sprite.Sprite):
     width = 16
     height = 16
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, maze_size):
         super(Cell, self).__init__()
 
         self.surf = pygame.Surface([self.width, self.height])
@@ -18,5 +18,23 @@ class Cell(pygame.sprite.Sprite):
         self.x = x
         self.y = y
 
+        self.maze_width = maze_size[0]
+        self.maze_height = maze_size[1]
+
+    def get_neighbors(self):
+        x_axis = [0, 2, 0, -2]
+        y_axis = [2, 0, -2, 0]
+        return [
+            (self.x + x, self.y + y) for x, y in zip(x_axis, y_axis)
+            if 0 <= self.x + x < self.maze_width and 0 <= self.y +
+            y < self.maze_height
+        ]
+
     def draw(self, screen):
         screen.blit(self.surf, self.rect)
+
+    def __str__(self):
+        return f'Cell: ({self.x},{self.y})'
+
+    def __repr__(self):
+        return str(self)
