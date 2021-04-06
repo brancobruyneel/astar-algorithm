@@ -1,14 +1,13 @@
 import pygame
+import heapq
 
 
 class Cell(pygame.sprite.Sprite):
     width = 16
     height = 16
 
-    def __init__(self, x, y, maze_size, type=0):
+    def __init__(self, x, y, maze_size, parent=None):
         super(Cell, self).__init__()
-        self.type = type
-
         self.surf = pygame.Surface([self.width, self.height])
         self.surf.fill((255, 255, 255))
 
@@ -19,12 +18,22 @@ class Cell(pygame.sprite.Sprite):
         self.x = x
         self.y = y
 
+        self.parent = parent
+        self.f = 0
+        self.g = 0
+        self.h = 0
+
         self.maze_width = maze_size[0]
         self.maze_height = maze_size[1]
 
-    def get_neighbors(self):
-        x_axis = [0, 2, 0, -2]
-        y_axis = [2, 0, -2, 0]
+    def get_neighbors(self, d=2, diagonal=False):
+        if diagonal:
+            x_axis = [0, d, 0, -d, d, -d, d, -d]
+            y_axis = [d, 0, -d, 0, d, -d, -d, d]
+        else:
+            x_axis = [0, d, 0, -d]
+            y_axis = [d, 0, -d, 0]
+
         return [
             (self.x + x, self.y + y) for x, y in zip(x_axis, y_axis)
             if 0 <= self.x + x < self.maze_width and 0 <= self.y +
@@ -33,6 +42,15 @@ class Cell(pygame.sprite.Sprite):
 
     def draw(self, screen):
         screen.blit(self.surf, self.rect)
+
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
+
+    def __lt__(self, other):
+        return self.f < other.f
+
+    def __gt__(self, other):
+        return self.f > other.f
 
     def __str__(self):
         return f'Cell: ({self.x},{self.y})'
