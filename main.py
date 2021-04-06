@@ -27,6 +27,7 @@ maze = Maze(WINSIZE)
 def draw_maze():
     maze.draw(screen)
     maze.generate(screen, True, 1)
+    print(maze.astar_search(screen, True, 10))
 
 
 draw_maze()

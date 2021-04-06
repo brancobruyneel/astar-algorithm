@@ -1,5 +1,4 @@
 import pygame
-import heapq
 
 
 class Cell(pygame.sprite.Sprite):
@@ -61,7 +60,7 @@ class Cell(pygame.sprite.Sprite):
 
 class Wall(Cell):
     def __init__(self, x, y, maze_size):
-        super(Wall, self).__init__(x, y, maze_size, 1)
+        super(Wall, self).__init__(x, y, maze_size)
         self.surf.fill((0, 0, 0))
 
     def __str__(self):
