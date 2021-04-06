@@ -18,6 +18,7 @@ python main.py
 #### Controls
 - `r` to reset the maze and sleeping time
 - `<space>` to search for the shortest path
+- `d` enable diagonal movement'
 - `+` to increase the sleeping time
 - `-` to decrease the sleeping time
 - `q` to quit
