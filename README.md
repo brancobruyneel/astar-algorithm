@@ -1,7 +1,8 @@
 # A\* Search Algorithm
 
-## Visualization written in python with `pygame`.
+## Visualization written in python.
 
+![preview](https://i.imgur.com/bjHMvgi.png)
 
 ### Usage
 Install `pygame` if you haven't already.
