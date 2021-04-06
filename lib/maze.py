@@ -11,7 +11,6 @@ class Maze:
         self.width = size[0] // Cell.width
         self.height = size[1] // Cell.height
         self.size = (self.width, self.height)
-        self.path = []
 
         self.create_grid()
 
@@ -30,13 +29,22 @@ class Maze:
         self.grid[cell.x][cell.y] = cell
 
     def set_start(self, screen):
-        start = Start(self.path[0].x, self.path[0].y, self.size)
+        cell = self.get(-2, -2)
+        start = Start(cell.x, cell.y, self.size)
         self.set(start)
         start.draw(screen)
         pygame.display.update()
 
     def set_end(self, screen):
-        end = End(self.path[-1].x, self.path[-1].y, self.size)
+        cell = self.get(1, 1)
+        cells = [(2, 1), (1, 2)]
+        i = 0
+        while type(cell) != Cell:
+            x, y = cells[i]
+            cell = self.get(x, y)
+            i += 1
+
+        end = End(cell.x, cell.y, self.size)
         self.set(end)
         end.draw(screen)
         pygame.display.update()
@@ -87,8 +95,6 @@ class Maze:
                 neighbor_cell = Cell(x, y, self.size)
                 self.set(current_cell)
                 self.set(neighbor_cell)
-                self.path.append(current_cell)
-                self.path.append(neighbor_cell)
 
                 current = neighbor
                 unvisited.remove(neighbor)

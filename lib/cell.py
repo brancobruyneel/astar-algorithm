@@ -5,8 +5,9 @@ class Cell(pygame.sprite.Sprite):
     width = 16
     height = 16
 
-    def __init__(self, x, y, maze_size):
+    def __init__(self, x, y, maze_size, type=0):
         super(Cell, self).__init__()
+        self.type = type
 
         self.surf = pygame.Surface([self.width, self.height])
         self.surf.fill((255, 255, 255))
@@ -42,7 +43,7 @@ class Cell(pygame.sprite.Sprite):
 
 class Wall(Cell):
     def __init__(self, x, y, maze_size):
-        super(Wall, self).__init__(x, y, maze_size)
+        super(Wall, self).__init__(x, y, maze_size, 1)
         self.surf.fill((0, 0, 0))
 
     def __str__(self):
