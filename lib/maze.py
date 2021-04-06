@@ -73,7 +73,7 @@ class Maze:
         ]
 
         current = unvisited.pop()
-        stack = []
+        stack = deque()
 
         while unvisited:
             try:
