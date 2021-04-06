@@ -2,7 +2,7 @@
 
 ## Visualization written in python.
 
-![preview](https://i.imgur.com/bjHMvgi.png)
+![preview](./img/preview.gif)
 
 ### Usage
 Install `pygame` if you haven't already.
