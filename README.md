@@ -1,6 +1,6 @@
 # A\* Search Algorithm
 
-## Visualization for the A\* Search Algorithm written in python with PyGame.
+## Visualization written in python with `pygame`.
 
 
 ### Usage
