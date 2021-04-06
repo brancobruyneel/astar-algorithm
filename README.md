@@ -1,13 +1,11 @@
-# A\* Search Algorithm
-
-## Visualization written in python.
+# A\* Search Algorithm Visualization
 
 <p align="center">
   <img src="./img/preview.gif" />
 </p>
 
 
-### Usage
+## Usage
 Install `pygame` if you haven't already.
 ```
 pip install pygame
@@ -18,7 +16,7 @@ Run it.
 python main.py
 ```
 
-#### Controls
+### Controls
 - `r` to reset the maze and sleeping time
 - `<space>` to search for the shortest path
 - `d` enable diagonal movement'
