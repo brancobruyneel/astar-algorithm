@@ -38,3 +38,30 @@ class Cell(pygame.sprite.Sprite):
 
     def __repr__(self):
         return str(self)
+
+
+class Wall(Cell):
+    def __init__(self, x, y, maze_size):
+        super(Wall, self).__init__(x, y, maze_size)
+        self.surf.fill((0, 0, 0))
+
+    def __str__(self):
+        return f'Wall: ({self.x},{self.y})'
+
+
+class Start(Cell):
+    def __init__(self, x, y, maze_size):
+        super(Start, self).__init__(x, y, maze_size)
+        self.surf.fill((0, 255, 0))
+
+    def __str__(self):
+        return f'Start: ({self.x},{self.y})'
+
+
+class End(Cell):
+    def __init__(self, x, y, maze_size):
+        super(End, self).__init__(x, y, maze_size)
+        self.surf.fill((255, 0, 0))
+
+    def __str__(self):
+        return f'End: ({self.x},{self.y})'

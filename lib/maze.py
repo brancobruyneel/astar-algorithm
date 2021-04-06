@@ -3,8 +3,12 @@ import pygame
 from queue import deque
 from random import choice
 
-from .cell import Cell
-from .wall import Wall
+from .cell import (
+    Cell,
+    Wall,
+    Start,
+    End
+)
 
 
 class Maze:
@@ -29,6 +33,15 @@ class Maze:
             for cell in row:
                 cell.draw(screen)
 
+    def get_random_neighbor(self, current, unvisited):
+        return choice(
+            [
+                cell for cell in
+                map(lambda x: self.get(*x), current.get_neighbors())
+                if cell in unvisited
+            ]
+        )
+
     def generate(self, screen=None, animate=False, sleep=10):
         # Iterative implementation
         unvisited = [
@@ -40,26 +53,19 @@ class Maze:
 
         while unvisited:
             try:
-                next = choice(
-                    [
-                        cell for cell in
-                        map(lambda x: self.get(*x), current.get_neighbors())
-                        if cell in unvisited
-                    ]
-                )
+                neighbor = self.get_random_neighbor(current, unvisited)
                 stack.append(current)
-                x = current.x - (current.x - next.x) // 2
-                y = current.y - (current.y - next.y) // 2
+                x = current.x - (current.x - neighbor.x) // 2
+                y = current.y - (current.y - neighbor.y) // 2
 
                 size = (self.width, self.height)
                 self.set(x, y, Cell(x, y, size))
                 self.set(
-                    current.x, current.y,
-                    Cell(current.x, current.y, size)
+                    current.x, current.y, Cell(current.x, current.y, size)
                 )
 
-                current = next
-                unvisited.remove(next)
+                current = neighbor
+                unvisited.remove(neighbor)
 
                 if animate:
                     self.draw(screen)
