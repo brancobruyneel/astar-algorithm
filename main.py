@@ -64,7 +64,7 @@ def main():
                     set_sleep(0, maze, astar)
 
                 if event.key == K_d:
-                    maze.diagonal = True
+                    maze.diagonal = False if maze.diagonal else True
                     draw_maze(maze)
 
                 if event.unicode == '+':
