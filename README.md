@@ -2,7 +2,10 @@
 
 ## Visualization written in python.
 
-![preview](./img/preview.gif)
+<p align="center">
+  <img src="./img/preview.gif" />
+</p>
+
 
 ### Usage
 Install `pygame` if you haven't already.
