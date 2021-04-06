@@ -25,7 +25,7 @@ class Cell(pygame.sprite.Sprite):
         self.maze_width = maze_size[0]
         self.maze_height = maze_size[1]
 
-    def get_neighbors(self, d=2, diagonal=False):
+    def get_neighbors(self, d=1, diagonal=False):
         if diagonal:
             x_axis = [0, d, 0, -d, d, -d, d, -d]
             y_axis = [d, 0, -d, 0, d, -d, -d, d]
@@ -65,21 +65,3 @@ class Wall(Cell):
 
     def __str__(self):
         return f'Wall: ({self.x},{self.y})'
-
-
-class Start(Cell):
-    def __init__(self, x, y, maze_size):
-        super(Start, self).__init__(x, y, maze_size)
-        self.surf.fill((0, 255, 0))
-
-    def __str__(self):
-        return f'Start: ({self.x},{self.y})'
-
-
-class End(Cell):
-    def __init__(self, x, y, maze_size):
-        super(End, self).__init__(x, y, maze_size)
-        self.surf.fill((255, 0, 0))
-
-    def __str__(self):
-        return f'End: ({self.x},{self.y})'
