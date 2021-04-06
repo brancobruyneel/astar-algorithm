@@ -1,17 +1,25 @@
-import heapq
 import pygame
 
 from queue import deque
 from random import choice
 
-from .cell import (Cell, Wall, Start, End)
+from lib.cell import (Cell, Wall)
 
 
 class Maze:
-    def __init__(self, size):
+    def __init__(
+        self, size, diagonal=False, screen=None, animate=False, sleep=1
+    ):
         self.width = size[0] // Cell.width
         self.height = size[1] // Cell.height
         self.size = (self.width, self.height)
+
+        self.diagonal = diagonal
+
+        self.screen = screen
+        self.animate = animate
+        self.sleep = sleep
+
         self.start = None
         self.end = None
 
@@ -31,15 +39,16 @@ class Maze:
     def set(self, cell):
         self.grid[cell.x][cell.y] = cell
 
-    def set_start(self, screen):
-        cell = self.get(-2, -2)
-        start = Start(cell.x, cell.y, self.size)
+    def set_start(self):
+        start = Cell(self.width - 2, self.height - 2, self.size)
         self.start = start
         self.set(start)
-        start.draw(screen)
+
+        start.surf.fill((0, 255, 0))
+        start.draw(self.screen)
         pygame.display.update()
 
-    def set_end(self, screen):
+    def set_end(self):
         cell = self.get(1, 1)
         cells = [(2, 1), (1, 2), (2, 2)]
         i = 0
@@ -48,20 +57,22 @@ class Maze:
             cell = self.get(x, y)
             i += 1
 
-        end = End(cell.x, cell.y, self.size)
+        end = Cell(cell.x, cell.y, self.size)
         self.end = end
         self.set(end)
-        end.draw(screen)
+
+        end.surf.fill((255, 0, 0))
+        end.draw(self.screen)
         pygame.display.update()
 
-    def draw(self, screen):
+    def draw(self):
         for row in self.grid:
             for cell in row:
-                cell.draw(screen)
+                cell.draw(self.screen)
 
-    def clean(self, screen):
+    def clean(self):
         self.create_grid()
-        self.draw(screen)
+        self.draw()
 
     def color_unvisited(self, unvisited):
         for cell in unvisited:
@@ -71,13 +82,13 @@ class Maze:
         return choice(
             [
                 cell for cell in
-                map(lambda x: self.get(*x), current.get_neighbors())
+                map(lambda x: self.get(*x), current.get_neighbors(2))
                 if cell in unvisited
             ]
         )
 
-    def generate(self, screen=None, animate=False, sleep=10):
-        self.clean(screen)
+    def generate(self):
+        self.clean()
 
         # Iterative implementation
         unvisited = [
@@ -104,70 +115,15 @@ class Maze:
                 current = neighbor
                 unvisited.remove(neighbor)
 
-                if animate:
-                    self.draw(screen)
+                if self.animate:
+                    current_cell.draw(self.screen)
+                    neighbor_cell.draw(self.screen)
                     pygame.display.update()
-                    pygame.time.wait(sleep)
+                    pygame.time.wait(self.sleep)
+
             except IndexError:
                 if stack:
                     current = stack.pop()
 
-        self.set_start(screen)
-        self.set_end(screen)
-
-        print('finished')
-
-
-    def astar_search(self, screen=None, animate=False, sleep=10):
-        open = []
-        closed = []
-
-        heapq.heapify(open)
-        heapq.heappush(open, self.start)
-        print(open)
-
-        while len(open) > 0:
-            # Step 1
-            current = heapq.heappop(open)
-            current.surf.fill((0, 0, 255))
-            closed.append(current)
-
-            print(current)
-            if current == self.end:
-                path = []
-                while current is not None:
-                    path.append((current.x, current.y))
-                    current = current.parent
-                return path[::-1]  
-
-            # Step 2 & 3
-            children = []
-            neighbors = current.get_neighbors(1)
-
-            for neighbor in neighbors:
-                neighbor_cell = self.get(*neighbor)
-                if type(neighbor_cell) == Wall:
-                    continue
-                children.append(neighbor_cell)
-
-            for child in children:
-                if len([closed_child for closed_child in closed if closed_child == child]) > 0:
-                    continue
-
-                child.g = current.g + 1
-                child.h = ((child.x - self.end.y) ** 2) + ((child.x - self.end.y) ** 2)
-                child.f = child.g + child.h
-
-                # Child is already in the open list
-                if len([open_node for open_node in open if child == open_node and child.g > open_node.g]) > 0:
-                    continue
-
-                # Add the child to the open list
-                heapq.heappush(open, child)
-
-            if animate:
-                self.draw(screen)
-                pygame.display.update()
-                pygame.time.wait(sleep)
-
-        return None
+        self.set_start()
+        self.set_end()

@@ -1,4 +1,3 @@
-import logging
 import pygame
 
 from pygame.locals import (
@@ -11,40 +10,57 @@ from pygame.locals import (
 
 from lib.cell import Cell
 from lib.maze import Maze
-
-logging.basicConfig(level=logging.ERROR)
-
-pygame.init()
-
-WINSIZE = (Cell.width * 41, Cell.height * 41)
-
-screen = pygame.display.set_mode(WINSIZE)
-clock = pygame.time.Clock()
-
-maze = Maze(WINSIZE)
+from lib.astar import Astar
 
 
-def draw_maze():
-    maze.draw(screen)
-    maze.generate(screen, True, 1)
-    print(maze.astar_search(screen, True, 10))
+WINSIZE = (Cell.width * 51, Cell.height * 51)
 
 
-draw_maze()
-running = True
+def draw_maze(maze):
+    maze.draw()
+    maze.generate()
 
-while running:
-    for event in pygame.event.get():
-        if event.type == KEYDOWN:
-            if event.key == K_r:
-                draw_maze()
-            if event.key == K_SPACE:
-                # A* Search Algorithm
-                pass
-            elif event.key == K_ESCAPE:
+
+def main():
+    pygame.init()
+
+    screen = pygame.display.set_mode(WINSIZE)
+    clock = pygame.time.Clock()
+
+    maze = Maze(
+        WINSIZE,
+        diagonal=False,
+        screen=screen,
+        animate=True,
+        sleep=1
+    )
+    astar = Astar(
+        maze,
+        screen=screen,
+        animate=True,
+        sleep=1
+    )
+
+    draw_maze(maze)
+
+    running = True
+
+    while running:
+        for event in pygame.event.get():
+            if event.type == KEYDOWN:
+                if event.key == K_r:
+                    draw_maze(maze)
+                if event.key == K_SPACE:
+                    astar.search()
+                elif event.key == K_ESCAPE:
+                    running = False
+
+            elif event.type == QUIT:
                 running = False
-        elif event.type == QUIT:
-            running = False
 
-    pygame.display.flip()
-    clock.tick()
+        pygame.display.flip()
+        clock.tick()
+
+
+if __name__ == '__main__':
+    main()
